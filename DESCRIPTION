@@ -21,3 +21,5 @@ RoxygenNote: 5.0.1
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: http://github.com/markozecevic/SBDE
+BugReports: http://github.com/markozecevic/SBDE/issues

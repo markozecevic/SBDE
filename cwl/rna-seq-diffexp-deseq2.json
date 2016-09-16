@@ -1,0 +1,1499 @@
+{
+  "class": "Workflow",
+  "steps": [
+    {
+      "id": "#DESeq2",
+      "run": {
+        "x": 979.6667480468753,
+        "class": "CommandLineTool",
+        "sbg:categories": [
+          "Differential-Expression"
+        ],
+        "sbg:toolkit": "DESeq2",
+        "stdout": "",
+        "sbg:toolAuthor": "Michael Love (HSPH Boston), Simon Anders, Wolfgang Huber (EMBL Heidelberg)",
+        "sbg:cmdPreview": "Rscript /opt/DESeq2_1.10.1/dsq2.R --sampleCnts=/path/to/sampleCounts-1.ext__treated,/path/to/sampleCounts-2.ext__untreated,/path/to/sampleCounts-3.ext__untreated,/path/to/sampleCounts-4.ext__treated --arrayEnd=here",
+        "sbg:latestRevision": 3,
+        "sbg:contributors": [
+          "marko_zecevic"
+        ],
+        "sbg:project": "marko_zecevic/deseq2-v1-10-1-demo",
+        "temporaryFailCodes": [
+          1
+        ],
+        "sbg:createdBy": "marko_zecevic",
+        "hints": [
+          {
+            "class": "sbg:CPURequirement",
+            "value": 1
+          },
+          {
+            "class": "sbg:MemRequirement",
+            "value": 1000
+          },
+          {
+            "dockerImageId": "",
+            "class": "DockerRequirement",
+            "dockerPull": "images.sbgenomics.com/marko_zecevic/deseq2:1.10.1"
+          }
+        ],
+        "sbg:createdOn": 1456150356,
+        "outputs": [
+          {
+            "type": [
+              "null",
+              "File"
+            ],
+            "outputBinding": {
+              "glob": "*.zip"
+            },
+            "label": "Collected outputs",
+            "description": "Zipped set of output files from the DESeq2 analysis.",
+            "sbg:fileTypes": "ZIP",
+            "id": "#zipped_outputs"
+          },
+          {
+            "type": [
+              "null",
+              {
+                "type": "array",
+                "name": "ma_plots",
+                "items": "File"
+              }
+            ],
+            "outputBinding": {
+              "glob": "MA_plot*"
+            },
+            "label": "MA plots",
+            "description": "MA plot shows the log2 fold changes attributable to a given condition over the mean of normalized counts. Points will be colored red if the adjusted p value is less than the cutoff. Points which fall out of the window are plotted as open triangles pointing either up or down.",
+            "sbg:fileTypes": "JPG",
+            "id": "#ma_plots"
+          },
+          {
+            "type": [
+              "null",
+              "File"
+            ],
+            "outputBinding": {
+              "glob": "Dispersion_Estimates_plot.jpg"
+            },
+            "label": "A plot of dispersion estimates",
+            "description": "DESeq2 assumes that genes of similar average expression strength have similar dispersion. Each gene is first treated separately to get gene-wise dispersion estimates (using maximum likelihood) - the black dots. Next, to allow for dependence on average expression strength, a smooth curve is fitted, as shown by the red line. The gene-wise dispersion estimates are then shrunk toward the values predicted by the curve to obtain final dispersion values - blue arrow heads.",
+            "sbg:fileTypes": "JPG",
+            "id": "#disp_estimates"
+          },
+          {
+            "type": [
+              "null",
+              {
+                "type": "array",
+                "name": "deseq2_summary",
+                "items": "File"
+              }
+            ],
+            "outputBinding": {
+              "glob": "*.txt"
+            },
+            "label": "DESeq2 analysis summary",
+            "description": "A brief summary of the differential expression analysis results, including information on filtering and outliers.",
+            "sbg:fileTypes": "TXT",
+            "id": "#deseq2_summary"
+          },
+          {
+            "type": [
+              "null",
+              {
+                "type": "array",
+                "name": "deseq2_analysis",
+                "items": "File"
+              }
+            ],
+            "outputBinding": {
+              "glob": "*.csv"
+            },
+            "label": "DESeq2 analysis results",
+            "description": "Output CSV file(s).",
+            "sbg:fileTypes": "CSV",
+            "id": "#deseq2_analysis"
+          }
+        ],
+        "baseCommand": [
+          "Rscript",
+          "/opt/DESeq2_1.10.1/dsq2.R"
+        ],
+        "sbg:license": "GNU Lesser General Public License (LGPL) >= 3",
+        "sbg:image_url": null,
+        "id": "marko_zecevic/deseq2-v1-10-1-demo/deseq2/3",
+        "sbg:revisionsInfo": [
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 0,
+            "sbg:modifiedOn": 1456150356,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 1,
+            "sbg:modifiedOn": 1456150485,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 2,
+            "sbg:modifiedOn": 1456406444,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 3,
+            "sbg:modifiedOn": 1469715108,
+            "sbg:modifiedBy": "marko_zecevic"
+          }
+        ],
+        "successCodes": [
+          0
+        ],
+        "label": "DESeq2",
+        "sbg:toolkitVersion": "1.10.1",
+        "sbg:revision": 3,
+        "sbg:id": "marko_zecevic/deseq2-v1-10-1-demo/deseq2/3",
+        "sbg:modifiedOn": 1469715108,
+        "inputs": [
+          {
+            "type": [
+              "null",
+              "string"
+            ],
+            "label": "Reference (control) level",
+            "inputBinding": {
+              "separate": false,
+              "sbg:cmdInclude": true,
+              "prefix": "--refCond=",
+              "position": 3
+            },
+            "sbg:category": "Options",
+            "description": "If you never tell the DESeq2 which level you want to compare against (e.g. which level represents the control group), the comparisons will be based on the alphabetical order of the levels with the first level being the reference.",
+            "id": "#ref_condition"
+          },
+          {
+            "type": [
+              {
+                "type": "array",
+                "name": "raw_sample_counts",
+                "items": "File"
+              }
+            ],
+            "label": "Raw count data",
+            "inputBinding": {
+              "itemSeparator": null,
+              "valueFrom": {
+                "class": "Expression",
+                "script": "{\neveryInput = [];\nfor (i = 0; i < $job.inputs.raw_sample_counts.length; i++) {\n    everyInput.push($job.inputs.raw_sample_counts[i].path.concat(\"__\").concat($job.inputs.raw_sample_counts[i].metadata.sample_group));\n\t}\nreturn everyInput;  \n}",
+                "engine": "#cwl-js-engine"
+              },
+              "position": 1,
+              "sbg:cmdInclude": true,
+              "separate": false,
+              "prefix": "--sampleCnts="
+            },
+            "required": true,
+            "sbg:category": "Input files",
+            "description": "Raw counts of sequencing reads or fragments.",
+            "sbg:fileTypes": "TXT",
+            "id": "#raw_sample_counts"
+          },
+          {
+            "type": [
+              "null",
+              {
+                "type": "enum",
+                "symbols": [
+                  "parametric",
+                  "local",
+                  "mean"
+                ],
+                "name": "fit_type"
+              }
+            ],
+            "label": "Fit type",
+            "inputBinding": {
+              "separate": false,
+              "sbg:cmdInclude": true,
+              "prefix": "--fitType=",
+              "position": 5
+            },
+            "sbg:category": "Options",
+            "description": "A local smoothed dispersion fit is automatically substitited in the case that the parametric curve doesn’t fit the observed dispersion mean relationship. This can be prespecified by providing the argument fitType=\"local\". Additionally, using the mean of gene-wise disperion estimates as the fitted value can be specified by providing the argument fitType=\"mean\".",
+            "sbg:toolDefaultValue": "parametric",
+            "id": "#fit_type"
+          },
+          {
+            "type": [
+              "null",
+              "float"
+            ],
+            "label": "FDR cutoff",
+            "inputBinding": {
+              "separate": false,
+              "sbg:cmdInclude": true,
+              "prefix": "--sigTreshold=",
+              "position": 6
+            },
+            "sbg:category": "Options",
+            "description": "During the analysis independent filtering is automatically performed based on the mean of normalized counts for each gene, optimizing the number of genes which will have an adjusted p value below a given FDR cutoff. By default this cutoff is set to 0.1. If the adjusted p value cutoff will be a value other than 0.1 - user should set it here manually.",
+            "sbg:toolDefaultValue": "0.1",
+            "id": "#fdr_cutoff"
+          }
+        ],
+        "sbg:validationErrors": [],
+        "arguments": [
+          {
+            "separate": false,
+            "valueFrom": "here",
+            "prefix": "--arrayEnd=",
+            "position": 2
+          }
+        ],
+        "stdin": "",
+        "sbg:job": {
+          "inputs": {
+            "fit_type": "parametric",
+            "fdr_cutoff": 0.1,
+            "raw_sample_counts": [
+              {
+                "size": 0,
+                "secondaryFiles": [],
+                "class": "File",
+                "metadata": {
+                  "sample_id": "treated",
+                  "sample_group": "treated",
+                  "Sample ID": "treated"
+                },
+                "path": "/path/to/sampleCounts-1.ext"
+              },
+              {
+                "size": 0,
+                "secondaryFiles": [],
+                "class": "File",
+                "metadata": {
+                  "sample_id": "untreated",
+                  "sample_group": "untreated",
+                  "Sample ID": "untreated"
+                },
+                "path": "/path/to/sampleCounts-2.ext"
+              },
+              {
+                "secondaryFiles": [],
+                "metadata": {
+                  "sample_id": "untreated",
+                  "sample_group": "untreated",
+                  "Sample ID": "untreated"
+                },
+                "path": "/path/to/sampleCounts-3.ext"
+              },
+              {
+                "secondaryFiles": [],
+                "metadata": {
+                  "sample_id": "treated",
+                  "sample_group": "treated",
+                  "Sample ID": "treated"
+                },
+                "path": "/path/to/sampleCounts-4.ext"
+              }
+            ],
+            "ref_condition": "untreated"
+          },
+          "allocatedResources": {
+            "cpu": 1,
+            "mem": 1000
+          }
+        },
+        "description": "DESeq2 is a tool for differential gene expression analysis based on the negative binomial distribution.\n\nIt analyses raw read counts from several samples, each belonging to one of two or more conditions under study. An important analysis question is the quantification and statistical inference of systematic changes between conditions, as compared to within-condition variability. DESeq2 provides methods to test for differential expression by use of negative binomial generalized linear models; the estimates of dispersion and logarithmic fold changes incorporate data-driven prior distributions. The analysis output consists of the results table, a short summary, a dispersion estimates plot and an MA plot showing the log2 fold changes attributable to a given gene over the mean of normalized counts.\n\nNote that if your samples come from more than two groups/conditions, a complete set of output files (except for the dispersion estimates plot which is unique for the entire analysis) will be produced for all pairwise comparisons.",
+        "sbg:modifiedBy": "marko_zecevic",
+        "requirements": [
+          {
+            "class": "ExpressionEngineRequirement",
+            "id": "#cwl-js-engine",
+            "requirements": [
+              {
+                "class": "DockerRequirement",
+                "dockerPull": "rabix/js-engine"
+              }
+            ]
+          }
+        ],
+        "y": 288.71427263532377,
+        "sbg:links": [
+          {
+            "label": "Homepage",
+            "id": "https://www.bioconductor.org/packages/release/bioc/html/DESeq2.html"
+          },
+          {
+            "label": "Publication",
+            "id": "http://www.genomebiology.com/2014/15/12/550"
+          },
+          {
+            "label": "Manual",
+            "id": "https://bioconductor.org/packages/release/bioc/manuals/DESeq2/man/DESeq2.pdf"
+          },
+          {
+            "label": "Source code",
+            "id": "https://bioconductor.org/packages/release/bioc/src/contrib/DESeq2_1.10.1.tar.gz"
+          }
+        ],
+        "sbg:sbgMaintained": false
+      },
+      "inputs": [
+        {
+          "id": "#DESeq2.ref_condition",
+          "default": "condition1",
+          "source": [
+            "#ref_condition"
+          ]
+        },
+        {
+          "id": "#DESeq2.raw_sample_counts",
+          "source": [
+            "#HTSeq_count.sample_counts"
+          ]
+        },
+        {
+          "id": "#DESeq2.fit_type",
+          "default": "parametric"
+        },
+        {
+          "id": "#DESeq2.fdr_cutoff"
+        }
+      ],
+      "outputs": [
+        {
+          "id": "#DESeq2.zipped_outputs"
+        },
+        {
+          "id": "#DESeq2.ma_plots"
+        },
+        {
+          "id": "#DESeq2.disp_estimates"
+        },
+        {
+          "id": "#DESeq2.deseq2_summary"
+        },
+        {
+          "id": "#DESeq2.deseq2_analysis"
+        }
+      ],
+      "sbg:x": 979.6667480468753,
+      "sbg:y": 288.71427263532377
+    },
+    {
+      "id": "#HTSeq_count",
+      "run": {
+        "x": 711.0000101725263,
+        "class": "CommandLineTool",
+        "sbg:categories": [
+          "Quantification"
+        ],
+        "sbg:toolkit": "HTSeq",
+        "stdout": "",
+        "sbg:toolAuthor": "Simon Anders (EMBL Heidelberg)",
+        "sbg:cmdPreview": "htseq-count -f bam -o aligned_reads.annotated.sam  /path/to/aligned_reads.bam  /path/to/features.gtf > aligned_reads.table.txt",
+        "sbg:latestRevision": 5,
+        "sbg:contributors": [
+          "marko_zecevic"
+        ],
+        "sbg:project": "marko_zecevic/htseq-v0-6-1-demo",
+        "temporaryFailCodes": [
+          1
+        ],
+        "sbg:createdBy": "marko_zecevic",
+        "hints": [
+          {
+            "class": "sbg:CPURequirement",
+            "value": 1
+          },
+          {
+            "class": "sbg:MemRequirement",
+            "value": 1000
+          },
+          {
+            "dockerImageId": "",
+            "class": "DockerRequirement",
+            "dockerPull": "images.sbgenomics.com/marko_zecevic/htseq:0.6.1"
+          }
+        ],
+        "sbg:createdOn": 1456485648,
+        "outputs": [
+          {
+            "type": [
+              "null",
+              "File"
+            ],
+            "outputBinding": {
+              "sbg:inheritMetadataFrom": "#aligned_reads",
+              "glob": "*.txt"
+            },
+            "label": "Raw count data",
+            "description": "Table with counts for each feature, followed by the special counters, which count reads that were not counted for any feature for various reasons (no_feature, ambiguous, too_low_aQual, not_aligned, alignment_not_unique).",
+            "sbg:fileTypes": "TXT",
+            "id": "#sample_counts"
+          },
+          {
+            "type": [
+              "null",
+              "File"
+            ],
+            "outputBinding": {
+              "sbg:inheritMetadataFrom": "#aligned_reads",
+              "glob": "*.sam"
+            },
+            "label": "Samout",
+            "description": "SAM file annotating each line of the original allignment file with its assignment to a feature or a special counter (as an optional field with tag ‘XF’).",
+            "sbg:fileTypes": "SAM",
+            "id": "#samout"
+          }
+        ],
+        "baseCommand": [
+          "htseq-count"
+        ],
+        "sbg:license": "GNU Lesser General Public License (LGPL) >= 3",
+        "sbg:image_url": null,
+        "id": "marko_zecevic/htseq-v0-6-1-demo/htseq-count/5",
+        "sbg:revisionsInfo": [
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 0,
+            "sbg:modifiedOn": 1456485648,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 1,
+            "sbg:modifiedOn": 1456487176,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 2,
+            "sbg:modifiedOn": 1456487201,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 3,
+            "sbg:modifiedOn": 1456487988,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 4,
+            "sbg:modifiedOn": 1469517702,
+            "sbg:modifiedBy": "marko_zecevic"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 5,
+            "sbg:modifiedOn": 1469518109,
+            "sbg:modifiedBy": "marko_zecevic"
+          }
+        ],
+        "successCodes": [
+          0
+        ],
+        "label": "HTSeq-count",
+        "sbg:toolkitVersion": "0.6.1",
+        "sbg:revision": 5,
+        "sbg:id": "marko_zecevic/htseq-v0-6-1-demo/htseq-count/5",
+        "sbg:modifiedOn": 1469518109,
+        "inputs": [
+          {
+            "type": [
+              "null",
+              {
+                "type": "enum",
+                "symbols": [
+                  "yes",
+                  "no",
+                  "reverse"
+                ],
+                "name": "stranded"
+              }
+            ],
+            "label": "Stranded",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "-s",
+              "position": 3
+            },
+            "sbg:category": "Options",
+            "description": "This option idicates whether the data is from a strand-specific assay. With \"no\" chosen, a read is considered overlapping with a feature regardless of whether it is mapped to the same or the opposite strand as the feature. With \"yes\" chosen and single-end reads, the read has to be mapped to the same strand as the feature. For paired-end reads, the first read has to be on the same strand and the second read on the opposite strand. For \"reverse\", these rules are reversed.",
+            "sbg:toolDefaultValue": "yes",
+            "id": "#stranded"
+          },
+          {
+            "type": [
+              "null",
+              {
+                "type": "enum",
+                "symbols": [
+                  "name",
+                  "pos"
+                ],
+                "name": "order"
+              }
+            ],
+            "label": "Order",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "-r",
+              "position": 2
+            },
+            "sbg:category": "Options",
+            "description": "For paired-end data, the alignment have to be sorted either by read name or by alignment position (if your data is not sorted, use the Picard Sort tool to sort it). Choosing \"name\" (Queryname) or \"pos\" (Coordinate) indicates how the input data was sorted. If \"name\" is chosen, htseq-count expects all the alignments for the reads of a given read pair to appear in adjacent records in the input data file. With \"pos\", this is not expected; rather, read alignments whose mate alignment have not yet been seen are kept in a buffer in memory until the mate is found. While, strictly speaking, the latter will also work with unsorted data, sorting ensures that most alignment mates appear close to each other in the data and hence the buffer is much less likely to overflow.",
+            "sbg:toolDefaultValue": "name",
+            "id": "#order"
+          },
+          {
+            "type": [
+              "null",
+              {
+                "type": "enum",
+                "symbols": [
+                  "union",
+                  "intersection-strict",
+                  "intersection-nonempty"
+                ],
+                "name": "mode"
+              }
+            ],
+            "label": "Mode",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "-m",
+              "position": 7
+            },
+            "sbg:category": "Options",
+            "description": "Mode to handle reads overlapping more than one feature.",
+            "sbg:stageInput": null,
+            "sbg:toolDefaultValue": "union",
+            "id": "#mode"
+          },
+          {
+            "type": [
+              "null",
+              "int"
+            ],
+            "label": "Quality threshold",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "-a",
+              "position": 4
+            },
+            "sbg:category": "Options",
+            "description": "Instructs HTSeq to skip all reads with alignment quality lower than the given minimum value.",
+            "sbg:stageInput": null,
+            "sbg:toolDefaultValue": "10",
+            "id": "#minimum_quality"
+          },
+          {
+            "type": [
+              "null",
+              "string"
+            ],
+            "label": "ID attribute",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "-i",
+              "position": 6
+            },
+            "sbg:category": "Options",
+            "description": "GFF attribute to be used as feature ID. Several GFF lines with the same feature ID will be considered as parts of the same feature. The feature ID is used to identity the counts in the output table.",
+            "sbg:toolDefaultValue": "gene_id",
+            "id": "#id_attribute"
+          },
+          {
+            "type": [
+              "File"
+            ],
+            "label": "Features",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "position": 11
+            },
+            "required": true,
+            "sbg:category": "Input files",
+            "description": "File containing features in GTF or GFF format.",
+            "sbg:fileTypes": "GTF, GFF",
+            "id": "#features"
+          },
+          {
+            "type": [
+              "null",
+              "string"
+            ],
+            "label": "Feature type",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "-t",
+              "position": 5
+            },
+            "sbg:category": "Options",
+            "description": "Feature type (3rd column in GFF file) to be used, all features of other type are ignored.",
+            "sbg:toolDefaultValue": "exon",
+            "id": "#feature_type"
+          },
+          {
+            "type": [
+              "File"
+            ],
+            "label": "Aligned reads",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "position": 10
+            },
+            "required": true,
+            "sbg:category": "Input files",
+            "description": "Aligned sorted reads in SAM or BAM format.",
+            "sbg:fileTypes": "SAM, BAM",
+            "id": "#aligned_reads"
+          }
+        ],
+        "sbg:validationErrors": [],
+        "arguments": [
+          {
+            "separate": true,
+            "valueFrom": {
+              "class": "Expression",
+              "script": "{\nvar re = /(?:\\.([^.]+))?$/;\nvar ext = re.exec($job.inputs.aligned_reads.path)[1];  \nreturn ext\n}",
+              "engine": "#cwl-js-engine"
+            },
+            "prefix": "-f",
+            "position": 1
+          },
+          {
+            "separate": true,
+            "valueFrom": {
+              "class": "Expression",
+              "script": "{\n  var filename = $job.inputs.aligned_reads.path.replace(/^.*[\\\\\\/]/, '').slice(0,-4).concat(\".table.txt\")\n  return filename\n}",
+              "engine": "#cwl-js-engine"
+            },
+            "prefix": ">",
+            "position": 40
+          },
+          {
+            "separate": true,
+            "valueFrom": {
+              "class": "Expression",
+              "script": "{\n  var filename = $job.inputs.aligned_reads.path.replace(/^.*[\\\\\\/]/, '').slice(0,-4).concat(\".annotated.sam\")\n  return filename\n}",
+              "engine": "#cwl-js-engine"
+            },
+            "prefix": "-o",
+            "position": 8
+          }
+        ],
+        "stdin": "",
+        "sbg:job": {
+          "inputs": {
+            "mode": "union",
+            "feature_type": "feature_type-string-value",
+            "aligned_reads": {
+              "size": 0,
+              "secondaryFiles": [],
+              "class": "File",
+              "path": "/path/to/aligned_reads.bam"
+            },
+            "order": "name",
+            "minimum_quality": 10,
+            "features": {
+              "size": 0,
+              "secondaryFiles": [],
+              "class": "File",
+              "path": "/path/to/features.gtf"
+            },
+            "stranded": "yes",
+            "id_attribute": "id_attribute-string-value"
+          },
+          "allocatedResources": {
+            "cpu": 1,
+            "mem": 1000
+          }
+        },
+        "description": "HTSeq-count is a tool for quantifying gene expression. \n\nIt takes aligned reads and a list of genomic features as inputs and outputs a table with counts for each feature.\n\nIt is designed with a specific use case in mind - namely to quantify gene expression for subsequent testing for differential expression, which is why, for example, the script does not count reads that map to multiple genes.",
+        "sbg:modifiedBy": "marko_zecevic",
+        "requirements": [
+          {
+            "class": "ExpressionEngineRequirement",
+            "id": "#cwl-js-engine",
+            "requirements": [
+              {
+                "class": "DockerRequirement",
+                "dockerPull": "rabix/js-engine"
+              }
+            ]
+          }
+        ],
+        "y": 316.00001017252623,
+        "sbg:links": [
+          {
+            "label": "Homepage",
+            "id": "http://www-huber.embl.de/users/anders/HTSeq/doc/overview.html"
+          },
+          {
+            "label": "Publication",
+            "id": "http://bioinformatics.oxfordjournals.org/content/31/2/166.full"
+          },
+          {
+            "label": "Documentation",
+            "id": "http://www-huber.embl.de/users/anders/HTSeq/doc/count.html"
+          }
+        ],
+        "sbg:sbgMaintained": false
+      },
+      "inputs": [
+        {
+          "id": "#HTSeq_count.stranded"
+        },
+        {
+          "id": "#HTSeq_count.order"
+        },
+        {
+          "id": "#HTSeq_count.mode"
+        },
+        {
+          "id": "#HTSeq_count.minimum_quality"
+        },
+        {
+          "id": "#HTSeq_count.id_attribute",
+          "default": "gene_id"
+        },
+        {
+          "id": "#HTSeq_count.features",
+          "source": [
+            "#features"
+          ]
+        },
+        {
+          "id": "#HTSeq_count.feature_type"
+        },
+        {
+          "id": "#HTSeq_count.aligned_reads",
+          "source": [
+            "#SBG_Flatten.flat"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "#HTSeq_count.sample_counts"
+        },
+        {
+          "id": "#HTSeq_count.samout"
+        }
+      ],
+      "sbg:x": 711.0000101725263,
+      "sbg:y": 316.00001017252623,
+      "scatter": "#HTSeq_count.aligned_reads"
+    },
+    {
+      "id": "#SBG_Flatten",
+      "run": {
+        "sbg:revisionNotes": "Changed to be able to flatten irregular list of lists.",
+        "class": "CommandLineTool",
+        "sbg:id": "admin/sbg-public-data/sbg-flatten/2",
+        "sbg:toolkit": "SBGTools",
+        "stdout": "",
+        "sbg:toolAuthor": "Ana Damljanovic/ Seven Bridges Genomics",
+        "x": 582,
+        "sbg:cmdPreview": "python /opt/sbg-flatten.py",
+        "sbg:latestRevision": 2,
+        "sbg:contributors": [
+          "sevenbridges",
+          "admin"
+        ],
+        "sbg:project": "admin/sbg-public-data",
+        "temporaryFailCodes": [],
+        "sbg:createdBy": "sevenbridges",
+        "hints": [
+          {
+            "dockerImageId": "c0e1d93b3d76",
+            "class": "DockerRequirement",
+            "dockerPull": "images.sbgenomics.com/ana_d/sbg-flatten:2.0"
+          },
+          {
+            "class": "sbg:CPURequirement",
+            "value": 1
+          },
+          {
+            "class": "sbg:MemRequirement",
+            "value": 1000
+          }
+        ],
+        "sbg:createdOn": 1453799658,
+        "outputs": [
+          {
+            "type": [
+              "null",
+              {
+                "type": "array",
+                "items": "File"
+              }
+            ],
+            "outputBinding": {
+              "sbg:metadata": {}
+            },
+            "label": "All grouped files",
+            "id": "#flat",
+            "description": "All grouped files as one list."
+          }
+        ],
+        "baseCommand": [
+          "python",
+          "/opt/sbg-flatten.py"
+        ],
+        "sbg:license": "Apache License 2.0",
+        "sbg:image_url": null,
+        "id": "admin/sbg-public-data/sbg-flatten/2",
+        "sbg:revisionsInfo": [
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 0,
+            "sbg:modifiedOn": 1453799658,
+            "sbg:modifiedBy": "sevenbridges"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 1,
+            "sbg:modifiedOn": 1453799659,
+            "sbg:modifiedBy": "sevenbridges"
+          },
+          {
+            "sbg:revisionNotes": "Changed to be able to flatten irregular list of lists.",
+            "sbg:revision": 2,
+            "sbg:modifiedOn": 1471539420,
+            "sbg:modifiedBy": "admin"
+          }
+        ],
+        "successCodes": [],
+        "label": "SBG Flatten",
+        "sbg:toolkitVersion": "1.0",
+        "arguments": [],
+        "sbg:revision": 2,
+        "sbg:categories": [
+          "Other"
+        ],
+        "sbg:modifiedOn": 1471539420,
+        "inputs": [
+          {
+            "type": [
+              {
+                "type": "array",
+                "items": "File"
+              }
+            ],
+            "label": "Nested",
+            "required": true,
+            "sbg:category": "Input files",
+            "description": "Files from all SBG Group Input outputs should be provided.",
+            "id": "#nested"
+          }
+        ],
+        "sbg:validationErrors": [],
+        "sbg:modifiedBy": "admin",
+        "stdin": "",
+        "sbg:job": {
+          "inputs": {
+            "nested": "nested"
+          },
+          "allocatedResources": {
+            "cpu": 1,
+            "mem": 1000
+          }
+        },
+        "description": "SBG Flatten is used only with SBG Group Input app for purposes of providing grouped inputs. All SBG Group Input outputs should be passed to the \"Nested\" SBG Flatten input in order to produce the output with all grouped files as one list.",
+        "requirements": [],
+        "y": 591.0000000000001,
+        "sbg:sbgMaintained": false
+      },
+      "inputs": [
+        {
+          "id": "#SBG_Flatten.nested",
+          "source": [
+            "#SBG_Group_Input.grouped_files",
+            "#SBG_Group_Input_1.grouped_files"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "#SBG_Flatten.flat"
+        }
+      ],
+      "sbg:x": 582,
+      "sbg:y": 591.0000000000001
+    },
+    {
+      "id": "#SBG_Group_Input",
+      "run": {
+        "x": 395.0000000000001,
+        "class": "CommandLineTool",
+        "sbg:categories": [
+          "Other"
+        ],
+        "sbg:toolkit": "SBGTools",
+        "stdout": "",
+        "sbg:toolAuthor": "Ana Damljanovic/ Seven Bridges Genomics",
+        "sbg:cmdPreview": "python /opt/sbg-groupcp.py --group /test-data/input_files.ext.ext2,/test-data/input_files2.ext.ext2,/test-data/input_files3.ext.ext2 --dest ./group_out",
+        "sbg:latestRevision": 2,
+        "sbg:contributors": [
+          "sevenbridges"
+        ],
+        "sbg:project": "admin/sbg-public-data",
+        "temporaryFailCodes": [],
+        "sbg:createdBy": "sevenbridges",
+        "hints": [
+          {
+            "dockerImageId": "d89b97cad221",
+            "class": "DockerRequirement",
+            "dockerPull": "images.sbgenomics.com/ana_d/sbg-groupcp:1.0"
+          },
+          {
+            "class": "sbg:CPURequirement",
+            "value": 1
+          },
+          {
+            "class": "sbg:MemRequirement",
+            "value": 1000
+          }
+        ],
+        "sbg:createdOn": 1453798988,
+        "outputs": [
+          {
+            "type": [
+              "null",
+              {
+                "type": "array",
+                "name": "grouped_files",
+                "items": "File"
+              }
+            ],
+            "outputBinding": {
+              "sbg:metadata": {
+                "sample_group": {
+                  "class": "Expression",
+                  "script": "$job.inputs.group_name",
+                  "engine": "#cwl-js-engine"
+                }
+              },
+              "sbg:inheritMetadataFrom": "#input_files",
+              "glob": "group_out/*"
+            },
+            "label": "Grouped Files",
+            "id": "#grouped_files",
+            "description": "Processed (grouped) files with metadata field indicating the same group."
+          }
+        ],
+        "baseCommand": [
+          "python",
+          "/opt/sbg-groupcp.py"
+        ],
+        "sbg:license": "Apache License 2.0",
+        "sbg:image_url": null,
+        "id": "admin/sbg-public-data/sbg-group-input/2",
+        "sbg:revisionsInfo": [
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 0,
+            "sbg:modifiedOn": 1453798988,
+            "sbg:modifiedBy": "sevenbridges"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 1,
+            "sbg:modifiedOn": 1453799016,
+            "sbg:modifiedBy": "sevenbridges"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 2,
+            "sbg:modifiedOn": 1461762649,
+            "sbg:modifiedBy": "sevenbridges"
+          }
+        ],
+        "successCodes": [],
+        "label": "SBG Group Input",
+        "sbg:toolkitVersion": "1.0",
+        "sbg:revision": 2,
+        "sbg:id": "admin/sbg-public-data/sbg-group-input/2",
+        "sbg:modifiedOn": 1461762649,
+        "inputs": [
+          {
+            "type": [
+              {
+                "type": "array",
+                "items": "File"
+              }
+            ],
+            "label": "Input files",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "--group",
+              "position": 2,
+              "itemSeparator": ","
+            },
+            "required": true,
+            "sbg:category": "Input files",
+            "description": "Provide files which belong to one group.",
+            "id": "#input_files"
+          },
+          {
+            "type": [
+              "string"
+            ],
+            "label": "Group name",
+            "sbg:category": "Basic Options",
+            "description": "Specify the name of the group.",
+            "sbg:toolDefaultValue": "-",
+            "id": "#group_name"
+          }
+        ],
+        "sbg:validationErrors": [],
+        "arguments": [
+          {
+            "separate": true,
+            "valueFrom": "./group_out",
+            "prefix": "--dest",
+            "position": 3
+          }
+        ],
+        "stdin": "",
+        "sbg:job": {
+          "inputs": {
+            "input_files": [
+              {
+                "path": "/test-data/input_files.ext.ext2"
+              },
+              {
+                "path": "/test-data/input_files2.ext.ext2"
+              },
+              {
+                "path": "/test-data/input_files3.ext.ext2"
+              }
+            ],
+            "group_name": "group_name"
+          },
+          "allocatedResources": {
+            "cpu": 1,
+            "mem": 1000
+          }
+        },
+        "description": "SBG Group Input accepts list of files that need to be grouped and sets the metadata field that indicates these files belong to the same group. This app should be included in the pipeline once for each group and used together with SBG Flatten. Each SBG Group Input output should be passed to SBG Flatten \"Nested\" input.",
+        "sbg:modifiedBy": "sevenbridges",
+        "requirements": [
+          {
+            "class": "ExpressionEngineRequirement",
+            "id": "#cwl-js-engine",
+            "requirements": [
+              {
+                "class": "DockerRequirement",
+                "dockerPull": "rabix/js-engine"
+              }
+            ]
+          }
+        ],
+        "y": 504.7500228881837,
+        "sbg:sbgMaintained": false
+      },
+      "inputs": [
+        {
+          "id": "#SBG_Group_Input.input_files",
+          "source": [
+            "#input_files"
+          ]
+        },
+        {
+          "id": "#SBG_Group_Input.group_name",
+          "default": "condition1",
+          "source": [
+            "#group_name"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "#SBG_Group_Input.grouped_files"
+        }
+      ],
+      "sbg:x": 395.0000000000001,
+      "sbg:y": 504.7500228881837
+    },
+    {
+      "id": "#SBG_Group_Input_1",
+      "run": {
+        "x": 394,
+        "class": "CommandLineTool",
+        "sbg:categories": [
+          "Other"
+        ],
+        "sbg:toolkit": "SBGTools",
+        "stdout": "",
+        "sbg:toolAuthor": "Ana Damljanovic/ Seven Bridges Genomics",
+        "sbg:cmdPreview": "python /opt/sbg-groupcp.py --group /test-data/input_files.ext.ext2,/test-data/input_files2.ext.ext2,/test-data/input_files3.ext.ext2 --dest ./group_out",
+        "sbg:latestRevision": 2,
+        "sbg:contributors": [
+          "sevenbridges"
+        ],
+        "sbg:project": "admin/sbg-public-data",
+        "temporaryFailCodes": [],
+        "sbg:createdBy": "sevenbridges",
+        "hints": [
+          {
+            "dockerImageId": "d89b97cad221",
+            "class": "DockerRequirement",
+            "dockerPull": "images.sbgenomics.com/ana_d/sbg-groupcp:1.0"
+          },
+          {
+            "class": "sbg:CPURequirement",
+            "value": 1
+          },
+          {
+            "class": "sbg:MemRequirement",
+            "value": 1000
+          }
+        ],
+        "sbg:createdOn": 1453798988,
+        "outputs": [
+          {
+            "type": [
+              "null",
+              {
+                "type": "array",
+                "name": "grouped_files",
+                "items": "File"
+              }
+            ],
+            "outputBinding": {
+              "sbg:metadata": {
+                "sample_group": {
+                  "class": "Expression",
+                  "script": "$job.inputs.group_name",
+                  "engine": "#cwl-js-engine"
+                }
+              },
+              "sbg:inheritMetadataFrom": "#input_files",
+              "glob": "group_out/*"
+            },
+            "label": "Grouped Files",
+            "id": "#grouped_files",
+            "description": "Processed (grouped) files with metadata field indicating the same group."
+          }
+        ],
+        "baseCommand": [
+          "python",
+          "/opt/sbg-groupcp.py"
+        ],
+        "sbg:license": "Apache License 2.0",
+        "sbg:image_url": null,
+        "id": "admin/sbg-public-data/sbg-group-input/2",
+        "sbg:revisionsInfo": [
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 0,
+            "sbg:modifiedOn": 1453798988,
+            "sbg:modifiedBy": "sevenbridges"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 1,
+            "sbg:modifiedOn": 1453799016,
+            "sbg:modifiedBy": "sevenbridges"
+          },
+          {
+            "sbg:revisionNotes": null,
+            "sbg:revision": 2,
+            "sbg:modifiedOn": 1461762649,
+            "sbg:modifiedBy": "sevenbridges"
+          }
+        ],
+        "successCodes": [],
+        "label": "SBG Group Input",
+        "sbg:toolkitVersion": "1.0",
+        "sbg:revision": 2,
+        "sbg:id": "admin/sbg-public-data/sbg-group-input/2",
+        "sbg:modifiedOn": 1461762649,
+        "inputs": [
+          {
+            "type": [
+              {
+                "type": "array",
+                "items": "File"
+              }
+            ],
+            "label": "Input files",
+            "inputBinding": {
+              "separate": true,
+              "sbg:cmdInclude": true,
+              "prefix": "--group",
+              "position": 2,
+              "itemSeparator": ","
+            },
+            "required": true,
+            "sbg:category": "Input files",
+            "description": "Provide files which belong to one group.",
+            "id": "#input_files"
+          },
+          {
+            "type": [
+              "string"
+            ],
+            "label": "Group name",
+            "sbg:category": "Basic Options",
+            "description": "Specify the name of the group.",
+            "sbg:toolDefaultValue": "-",
+            "id": "#group_name"
+          }
+        ],
+        "sbg:validationErrors": [],
+        "arguments": [
+          {
+            "separate": true,
+            "valueFrom": "./group_out",
+            "prefix": "--dest",
+            "position": 3
+          }
+        ],
+        "stdin": "",
+        "sbg:job": {
+          "inputs": {
+            "input_files": [
+              {
+                "path": "/test-data/input_files.ext.ext2"
+              },
+              {
+                "path": "/test-data/input_files2.ext.ext2"
+              },
+              {
+                "path": "/test-data/input_files3.ext.ext2"
+              }
+            ],
+            "group_name": "group_name"
+          },
+          "allocatedResources": {
+            "cpu": 1,
+            "mem": 1000
+          }
+        },
+        "description": "SBG Group Input accepts list of files that need to be grouped and sets the metadata field that indicates these files belong to the same group. This app should be included in the pipeline once for each group and used together with SBG Flatten. Each SBG Group Input output should be passed to SBG Flatten \"Nested\" input.",
+        "sbg:modifiedBy": "sevenbridges",
+        "requirements": [
+          {
+            "class": "ExpressionEngineRequirement",
+            "id": "#cwl-js-engine",
+            "requirements": [
+              {
+                "class": "DockerRequirement",
+                "dockerPull": "rabix/js-engine"
+              }
+            ]
+          }
+        ],
+        "y": 669.0000000000001,
+        "sbg:sbgMaintained": false
+      },
+      "inputs": [
+        {
+          "id": "#SBG_Group_Input_1.input_files",
+          "source": [
+            "#input_files_1"
+          ]
+        },
+        {
+          "id": "#SBG_Group_Input_1.group_name",
+          "default": "condition2",
+          "source": [
+            "#group_name_1"
+          ]
+        }
+      ],
+      "outputs": [
+        {
+          "id": "#SBG_Group_Input_1.grouped_files"
+        }
+      ],
+      "sbg:x": 394,
+      "sbg:y": 669.0000000000001
+    }
+  ],
+  "requirements": [],
+  "inputs": [
+    {
+      "type": [
+        {
+          "type": "array",
+          "items": "File"
+        }
+      ],
+      "sbg:x": 176,
+      "label": "aligned_reads_condition1",
+      "id": "#input_files",
+      "sbg:y": 506
+    },
+    {
+      "type": [
+        {
+          "type": "array",
+          "items": "File"
+        }
+      ],
+      "sbg:x": 178,
+      "label": "aligned_reads_condition2",
+      "id": "#input_files_1",
+      "sbg:y": 670
+    },
+    {
+      "type": [
+        "File"
+      ],
+      "sbg:x": 180,
+      "label": "gtf",
+      "id": "#features",
+      "sbg:y": 291
+    },
+    {
+      "type": [
+        "null",
+        "string"
+      ],
+      "label": "Reference (control) level",
+      "sbg:category": "Options",
+      "description": "If you never tell the DESeq2 which level you want to compare against (e.g. which level represents the control group), the comparisons will be based on the alphabetical order of the levels with the first level being the reference.",
+      "id": "#ref_condition",
+      "sbg:suggestedValue": "condition1"
+    },
+    {
+      "type": [
+        "string"
+      ],
+      "sbg:includeInPorts": false,
+      "label": "Group name",
+      "sbg:category": "Basic Options",
+      "description": "Specify the name of the group.",
+      "sbg:toolDefaultValue": "-",
+      "id": "#group_name",
+      "sbg:suggestedValue": "condition1"
+    },
+    {
+      "type": [
+        "string"
+      ],
+      "label": "Group name",
+      "sbg:category": "Basic Options",
+      "description": "Specify the name of the group.",
+      "sbg:toolDefaultValue": "-",
+      "id": "#group_name_1",
+      "sbg:suggestedValue": "condition2"
+    }
+  ],
+  "outputs": [
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "samout",
+      "required": false,
+      "sbg:y": 657.2982279459638,
+      "sbg:x": 922.6491292317714,
+      "id": "#samout",
+      "source": [
+        "#HTSeq_count.samout"
+      ]
+    },
+    {
+      "type": [
+        "null",
+        "File"
+      ],
+      "label": "Collected outputs",
+      "required": false,
+      "sbg:y": 208.6014665876117,
+      "sbg:x": 1153.711809430804,
+      "id": "#zipped_outputs",
+      "source": [
+        "#DESeq2.zipped_outputs"
+      ]
+    },
+    {
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "name": "deseq2_analysis",
+          "items": "File"
+        }
+      ],
+      "label": "DESeq2 analysis results",
+      "required": false,
+      "sbg:y": 570.9649658203128,
+      "sbg:x": 1181.0878499348964,
+      "id": "#deseq2_analysis",
+      "source": [
+        "#DESeq2.deseq2_analysis"
+      ]
+    }
+  ],
+  "sbg:canvas_zoom": 0.7999999999999998,
+  "sbg:canvas_x": -7,
+  "sbg:latestRevision": 3,
+  "sbg:contributors": [
+    "marko_zecevic"
+  ],
+  "sbg:project": "marko_zecevic/sbde-test",
+  "sbg:createdBy": "marko_zecevic",
+  "sbg:createdOn": 1472224539,
+  "sbg:canvas_y": -105,
+  "sbg:image_url": "https://brood.sbgenomics.com/static/marko_zecevic/sbde-test/htseq-deseq2/3.png",
+  "sbg:modifiedBy": "marko_zecevic",
+  "sbg:revisionsInfo": [
+    {
+      "sbg:revisionNotes": null,
+      "sbg:revision": 0,
+      "sbg:modifiedOn": 1472224539,
+      "sbg:modifiedBy": "marko_zecevic"
+    },
+    {
+      "sbg:revisionNotes": null,
+      "sbg:revision": 1,
+      "sbg:modifiedOn": 1472224958,
+      "sbg:modifiedBy": "marko_zecevic"
+    },
+    {
+      "sbg:revisionNotes": null,
+      "sbg:revision": 2,
+      "sbg:modifiedOn": 1472237259,
+      "sbg:modifiedBy": "marko_zecevic"
+    },
+    {
+      "sbg:revisionNotes": null,
+      "sbg:revision": 3,
+      "sbg:modifiedOn": 1472288883,
+      "sbg:modifiedBy": "marko_zecevic"
+    }
+  ],
+  "sbg:revision": 3,
+  "sbg:id": "marko_zecevic/sbde-test/htseq-deseq2/3",
+  "sbg:modifiedOn": 1472288883,
+  "sbg:validationErrors": [],
+  "sbg:sbgMaintained": false,
+  "id": "marko_zecevic/sbde-test/htseq-deseq2/3",
+  "label": "HTSeq-count test",
+  "description": "",
+  "hints": []
+}

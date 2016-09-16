@@ -1,0 +1,149 @@
+---
+title: "SBDE: Differential Expression Analysis on Seven Bridges Platform"
+author: "Marko Zecevic"
+date: "`r Sys.Date()`"
+output: BiocStyle::html_document
+vignette: >
+  %\VignetteIndexEntry{SBDE: Differential Expression Analysis on Seven Bridges Platform}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Differential Gene Expression
+
+Detecting differentially expressed genes across sample groups can be a major goal in the statistical analysis of RNA-seq data. Typically, a workflow for this type of analysis would consists of:
+
+- sequence read alignment
+- gene expression quantification
+- expression normalization
+- testing for differential gene expression (DGE)
+
+There is a variety of tools developed for DGE testing and some are already wrapped and made available on Seven Bridges platforms. There is no general concensus on which tools to use and multiple studies evaluating the performances of different workflows have been published. The choice of aligner will also slightly influence the results of differentially expressed gene detection and gene expression estimation.
+
+`SBDE` package is a collection of API scripts written with the goal of simplifying differential expression analysis on Seven Bridges platforms. The `DifferentialExpressionAnalysis` container is used to keep track of data, chosen alignment and quantification/DE testing workflows and their corresponding tasks. `SBDE` also extends the functionality of `VennDiagram` package to allow for comparison of up to five different workflow choices.
+
+# SBDE workflow
+
+```{r, echo=FALSE, results='hide', message = FALSE}
+devtools::load_all("/Users/marko/R/SBDE")
+```
+
+## New analysis
+
+You should first set up some variables with your platform token, project id and the choice of API/platform you are using.
+
+```{r, echo=TRUE}
+your_token <- "29dd0f0d333e473cbb094e8b1014e0d1"
+your_project <- "marko_zecevic/sbde-test"
+your_platform <- "https://api.sbgenomics.com/v2"
+```
+
+A new object of class `DifferentialExpressionAnalysis` is created with `newDEA()`.
+
+```{r, echo=TRUE}
+testDEA <- newDEA("Hisat_and_DESeq2", your_token, your_project, your_platform,
+                  align_wf = "hisat2", de_wf = "deseq2")
+testDEA
+```
+
+A properly set up project includes only a single reference fasta file, a single annotation file and sample fastq files. If, however, you have additional fasta/gtf/fastq files in your project - you can manually remove the unwanted ones from the `DifferentialExpressionAnalysis` object by directly accessing the `reference`, `annotation` or `sample_reads` slots.
+
+```{r, echo=TRUE}
+testDEA@sample_reads
+```
+
+## Alignment
+
+Next step is the alignment of sequenced reads. You can create the alignment tasks with `align()`.
+
+```{r, echo=TRUE, eval = FALSE}
+testDEA <- align(testDEA, should_run = TRUE)
+```
+```{r, echo=FALSE, results='hide'}
+load("~/R/SBDE/testscr/testDEAaligned.RData")
+```
+
+The `alignment_task` slot is no longer NA. It holds the id of the task (batch task if there are multiple samples, and since this is a DE analysis - there should be!) in which the reads are aligned to the reference. If `should_run = FALSE` - draft tasks will be created.
+
+```{r, echo=TRUE}
+testDEA@alignment_task
+```
+
+You can check the status of running alignment tasks by typing `status(testDEA)` or simply monitor the progress in the visual interface.
+
+## Quantification and DGE testing
+
+After the reads have been aligned, we can then quantify the gene expression and test for differential expression. Again, the workflow will be one from the `/cwl` folder. The function `list_bam()` will return the bam files produced in the previous step:
+
+```{r, echo=TRUE}
+testDEA@aligned_reads <- list_bam(testDEA)
+testDEA@aligned_reads
+```
+
+Each sample needs to be associated to a condition. Remember, our goal is to find any differentialy expressed genes between two or more groups.
+
+```{r, echo=TRUE}
+testDEA@aligned_reads$condition <- c("untreated", "untreated", "treated", "treated",
+                                     "untreated", "treated", "treated", "untreated")
+testDEA@aligned_reads
+```
+
+After this sample metadata has been set, we can analyze for DE. Again, this will create and run a task:
+
+```{r, echo=TRUE, eval = FALSE}
+testDEA <- analyzeForDE(testDEA, should_run = TRUE)
+```
+```{r, echo=FALSE, results='hide'}
+load("~/R/SBDE/testscr/testDEAquantified.RData")
+```
+
+Once the task is completed, we read the analysis results with `readResults()`.
+
+```{r, echo=TRUE}
+testDEA <- readResults(testDEA)
+head(testDEA@analysis_results)
+```
+
+# Exploratory Analysis
+
+Lets say we ran all 6 possible combinations of currently available workflows for alignment and DE testing.
+
+```{r, echo=FALSE, results='hide'}
+load("~/R/SBDE/testscr/DEA1.RData")
+load("~/R/SBDE/testscr/DEA2.RData")
+load("~/R/SBDE/testscr/DEA3.RData")
+load("~/R/SBDE/testscr/DEA4.RData")
+load("~/R/SBDE/testscr/DEA5.RData")
+load("~/R/SBDE/testscr/DEA6.RData")
+```
+```{r, echo=TRUE, warning = FALSE}
+analyses <- c(DEA1, DEA2, DEA3, DEA4, DEA5, DEA6)
+sapply(analyses, function (x) x@title)
+```
+
+With `barChart()` we plot the total number of detected differenialy expressed genes for each analysis.
+
+```{r, echo=TRUE, warning = FALSE}
+barChart(analyses, alpha = 0.05, fill = c("skyblue", "pink1", "mediumorchid", "orange",
+                                          "chartreuse3", "firebrick2"))
+```
+
+We can plot Venn diagrams of up to 5 sets but for the sake of interpretability we should probably limit ourselves to 4. Since we have 6 analyses, one of the things we could do is find a pair that is most similar and exclude one of them from the plot.
+
+```{r, echo=TRUE}
+clusterDendogram(analyses, alpha = 0.05)
+```
+
+First, we will exclude DEA4 to be able to plot the diagram:
+
+```{r, echo=TRUE}
+plotVenn(analyses[-4], 0.05, lty = "blank", fill = c("skyblue", "pink1", "mediumorchid",
+                                                     "chartreuse3", "firebrick2"))
+```
+
+...then both DEA3 and DEA4:
+
+```{r, echo=TRUE, message = FALSE}
+plotVenn(analyses[c(-3,-4)], 0.05, lty = "blank", fill = c("skyblue", "pink1",
+                                                           "chartreuse3", "firebrick2"))
+```

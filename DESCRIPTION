@@ -19,7 +19,8 @@ Imports:
     methods (>= 3.3.0)
 RoxygenNote: 5.0.1
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 URL: http://github.com/markozecevic/SBDE
 BugReports: http://github.com/markozecevic/SBDE/issues

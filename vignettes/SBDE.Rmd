@@ -11,16 +11,16 @@ vignette: >
 
 # Differential Gene Expression
 
-Detecting differentially expressed genes across sample groups can be a major goal in the statistical analysis of RNA-seq data. Typically, a workflow for this type of analysis would consists of:
+Detecting differentially expressed genes across sample groups is among the major goals in the statistical analysis of RNA-seq data. Typically, a workflow for this type of analysis would consists of:
 
 - sequence read alignment
 - gene expression quantification
 - expression normalization
 - testing for differential gene expression (DGE)
 
-There is a variety of tools developed for DGE testing and some are already wrapped and made available on Seven Bridges platforms. There is no general concensus on which tools to use and multiple studies evaluating the performances of different workflows have been published. The choice of aligner will also slightly influence the results of differentially expressed gene detection and gene expression estimation.
+There is a number of tools developed for this purpose and some are already wrapped and made available on Seven Bridges Cancer Genomics Cloud (CGC) platform, which also hosts massive genomic datasets, available immediately to authorized researchers. There is no general concensus on which tools to use and multiple studies evaluating the performances of different workflows have been published. The choice of aligner will also slightly influence the results of differentially expressed gene detection and gene expression estimation.
 
-`SBDE` package is a collection of API scripts written with the goal of simplifying differential expression analysis on Seven Bridges platforms. The `DifferentialExpressionAnalysis` container is used to keep track of data, chosen alignment and quantification/DE testing workflows and their corresponding tasks. `SBDE` also extends the functionality of `VennDiagram` package to allow for comparison of up to five different workflow choices.
+`SBDE` package is a collection of API functions bundled together to simplify differential expression analysis on Seven Bridges platforms. It abstracts over the differences in output formats and setting up and running different workflows, allowing an inexperienced platform user to perform his analysis while getting familiar with the graphical interface. The `DifferentialExpressionAnalysis` container is used to keep track of data, chosen alignment and quantification/DE testing workflows and their corresponding tasks. `SBDE` also extends the functionality of `VennDiagram` package to allow for comparison of up to five different workflow choices.
 
 # SBDE workflow
 

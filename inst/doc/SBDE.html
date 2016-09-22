@@ -10,7 +10,7 @@
 
 <meta name="author" content="Marko Zecevic" />
 
-<meta name="date" content="2016-09-21" />
+<meta name="date" content="2016-09-22" />
 
 <title>SBDE: Differential Expression Analysis on Seven Bridges Platform</title>
 
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <div id="header">
 <h1 class="title">SBDE: Differential Expression Analysis on Seven Bridges Platform</h1>
 <h4 class="author"><em>Marko Zecevic</em></h4>
-<h4 class="date"><em>2016-09-21</em></h4>
+<h4 class="date"><em>2016-09-22</em></h4>
 </div>
 
 <h1>Contents</h1>
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <li>expression normalization</li>
 <li>testing for differential gene expression (DGE)</li>
 </ul>
-<p>There is a number of tools developed for this purpose and some are already wrapped and made available on Seven Bridges Cancer Genomics Cloud (CGC) platform, which also hosts massive genomic datasets, available immediately to authorized researchers. There is no general concensus on which tools to use and multiple studies evaluating the performances of different workflows have been published. The choice of aligner will also slightly influence the results of differentially expressed gene detection and gene expression estimation.</p>
+<p>There is a number of tools developed for this purpose and some are already wrapped and made available on Seven Bridges platforms. There is no general concensus on which tools to use and multiple studies evaluating the performances of different workflows have been published. The choice of aligner will also slightly influence the results of differentially expressed gene detection and gene expression estimation.</p>
 <p><code>SBDE</code> package is a collection of API functions bundled together to simplify differential expression analysis on Seven Bridges platforms. It abstracts over the differences in output formats and setting up and running different workflows, allowing an inexperienced platform user to perform his analysis while getting familiar with the graphical interface. The <code>DifferentialExpressionAnalysis</code> container is used to keep track of data, chosen alignment and quantification/DE testing workflows and their corresponding tasks. <code>SBDE</code> also extends the functionality of <code>VennDiagram</code> package to allow for comparison of up to five different workflow choices.</p>
 </div>
 <div id="sbde-workflow" class="section level1">

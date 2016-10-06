@@ -98,6 +98,7 @@ setMethod("c", signature(x = "DifferentialExpressionAnalysis"), function(x, ...)
 #' @examples
 #' testDEA <- newDEA("Hisat_and_deseq2", your_token, your_project, your_platform, "hisat2", "deseq2")
 
+#' @export
 newDEA <- function(analysis_title, token, project_id, platform, align_wf, de_wf) {
   if (!(align_wf %in% c("star", "tophat2", "hisat2"))) stop("Please specify a valid aligner!")
   if (!(de_wf %in% c("cufflinks", "deseq2"))) stop("Please specify a valid quantification/differential expression toolkit!")

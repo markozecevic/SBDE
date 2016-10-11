@@ -12,6 +12,7 @@
 #' @examples
 #' testDEA <- align(testDEA, should_run = TRUE)
 
+#' @export
 align <- function(analysis, should_run = FALSE) {
   switch(analysis@alignment_wf,
          star={

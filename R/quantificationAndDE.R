@@ -12,6 +12,7 @@
 #' @examples
 #' testDEA <- analyzeForDE(testDEA, should_run = TRUE)
 
+#' @export
 analyzeForDE <- function(analysis, should_run = FALSE) {
   switch(analysis@quantification_DE_wf,
          deseq2={

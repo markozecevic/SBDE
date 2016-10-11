@@ -10,6 +10,7 @@
 #' @examples
 #' testDEA <- readResults(testDEA)
 
+#' @export
 readResults <- function(analysis) {
   switch(analysis@quantification_DE_wf,
          deseq2={

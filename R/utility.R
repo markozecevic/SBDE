@@ -28,6 +28,7 @@ fastq_table <- function(project) {
   return(meta[order(rownames(meta)), ])
 }
 
+#' @export
 list_bam <- function(analysis) {
   switch(analysis@alignment_wf,
          star={

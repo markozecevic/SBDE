@@ -20,6 +20,7 @@ significant <- function(analyses_titles, d) {
 #' @examples
 #' plotVenn(c(DEA1, DEA2, DEA3), 0.05, lty = "blank", fill = c("skyblue", "pink1", "mediumorchid"))
 
+#' @export
 plotVenn <- function(analyses, alpha, ...) {
   n <- length(analyses)
   coln <- sapply(analyses, function(x) x@title)
@@ -75,7 +76,7 @@ plotVenn <- function(analyses, alpha, ...) {
   # return(out)
 }
 
-
+#' @export
 clusterDendogram <- function(analyses, alpha) {
   n <- length(analyses)
   coln <- sapply(analyses, function(x) x@title)
@@ -93,6 +94,7 @@ clusterDendogram <- function(analyses, alpha) {
   plot(hclust(distance), hang = -1)
 }
 
+#' @export
 barChart <- function(analyses, alpha, fill) {
   analyses <- c(DEA1, DEA2, DEA3, DEA4, DEA5, DEA6)
   alpha <- 0.05

@@ -10,16 +10,17 @@ newAnalysisAlreadyAligned <- function(analysis, title, quantwf) {
 fastq_table <- function(project) {
   p <- project
   # cat("creating file index")
-  # files <- p$file(complete = TRUE)
-  # # this used to be necessary before 'complete = TRUE' was introduced
-  files_aux <- p$file()
-  files <- files_aux
-  os <- 100 # this may change if the limit changes, increments too
-  while (length(files_aux) == 100) {
-    files_aux <- p$file(offset = os)
-    files <- FileList(c(as.list(files),as.list(files_aux)))
-    os <- os + 100
-  }
+  files <- p$file(complete = TRUE)
+  # # # this used to be necessary before 'complete = TRUE' was introduced
+  # files_aux <- p$file()
+  # files <- files_aux
+  # os <- 100 # this may change if the limit changes, increments too
+  # while (length(files_aux) == 100) {
+  #   files_aux <- p$file(offset = os)
+  #   files <- FileList(c(as.list(files),as.list(files_aux)))
+  #   os <- os + 100
+  # }
+  if (length(files) == 0) stop("Your project is missing a FASTQ reference.")
   fastq_ind <- which(tools::file_ext(sapply(files, function (x) x$name)) == "fastq")
   fastq_name <- sapply(fastq_ind, function (x) files[[x]]$name)
   meta <- data.frame(t(sapply(fastq_ind, function (x) files[[x]]$meta()[c("sample_id", "paired_end")])))
@@ -67,16 +68,17 @@ find_files <- function(project, ext) {
     e <- ext
   }
   # cat("creating file index")
-  # files <- p$file(complete = TRUE)
-  # # this used to be necessary before 'complete = TRUE' was introduced
-  files_aux <- p$file()
-  files <- files_aux
-  os <- 100 # this may change if the limit changes, increments too
-  while (length(files_aux) == 100) {
-    files_aux <- p$file(offset = os)
-    files <- FileList(c(as.list(files),as.list(files_aux)))
-    os <- os + 100
-  }
+  files <- p$file(complete = TRUE)
+  # # # this used to be necessary before 'complete = TRUE' was introduced
+  # files_aux <- p$file()
+  # files <- files_aux
+  # os <- 100 # this may change if the limit changes, increments too
+  # while (length(files_aux) == 100) {
+  #   files_aux <- p$file(offset = os)
+  #   files <- FileList(c(as.list(files),as.list(files_aux)))
+  #   os <- os + 100
+  # }
+  if (length(files) == 0) stop(paste0("Your project is missing the needed ", toupper(ext), " files."))
   ext_ind <- which(tools::file_ext(sapply(files, function (x) x$name)) %in% e)
   ext_name <- sapply(ext_ind, function (x) files[[x]]$name)
   return(ext_name)

@@ -1,16 +1,7 @@
-
-newAnalysisAlreadyAligned <- function(analysis, title, quantwf) {
-  NEWanalysis <- analysis
-  NEWanalysis@title <- title
-  NEWanalysis@quantification_DE_wf <- quantwf
-  NEWanalysis@quantification_DE_task  <- NA_character_
-  return(NEWanalysis)
-}
-
 fastq_table <- function(project) {
   p <- project
   # cat("creating file index")
-  files <- p$file(complete = TRUE)
+  aux <- capture.output(files <- p$file(complete = TRUE))
   # # # this used to be necessary before 'complete = TRUE' was introduced
   # files_aux <- p$file()
   # files <- files_aux
@@ -46,19 +37,19 @@ list_bam <- function(analysis) {
 list_bamStar <- function(analysis) {
   p <- analysis@project
   children <- p$task(parent = analysis@alignment_task, status = "completed", detail = TRUE)
-  return(data.frame(bam_names = sapply(children, function(x) x$outputs$sorted_bam$name)))
+  return(data.frame(bam_name = sapply(children, function(x) x$outputs$sorted_bam$name)))
 }
 
 list_bamTophat2 <- function(analysis) {
   p <- analysis@project
   children <- p$task(parent = analysis@alignment_task, status = "completed", detail = TRUE)
-  return(data.frame(bam_names = sapply(children, function(x) x$outputs$output_bam_file$name)))
+  return(data.frame(bam_name = sapply(children, function(x) x$outputs$output_bam_file$name)))
 }
 
 list_bamHisat2 <- function(analysis) {
   p <- analysis@project
   children <- p$task(parent = analysis@alignment_task, status = "completed", detail = TRUE)
-  return(data.frame(bam_names = sapply(children, function(x) x$outputs$sorted_bam$name)))
+  return(data.frame(bam_name = sapply(children, function(x) x$outputs$sorted_bam$name)))
 }
 
 find_files <- function(project, ext) {
@@ -69,7 +60,7 @@ find_files <- function(project, ext) {
     e <- ext
   }
   # cat("creating file index")
-  files <- p$file(complete = TRUE)
+  aux <- capture.output(files <- p$file(complete = TRUE))
   # # # this used to be necessary before 'complete = TRUE' was introduced
   # files_aux <- p$file()
   # files <- files_aux
@@ -83,24 +74,4 @@ find_files <- function(project, ext) {
   ext_ind <- which(tools::file_ext(sapply(files, function (x) x$name)) %in% e)
   ext_name <- sapply(ext_ind, function (x) files[[x]]$name)
   return(ext_name)
-}
-
-status <- function(analysis) {
-  p <- analysis@project
-  if (is.na(analysis@alignment_task)&&is.na(analysis@quantification_DE_task)) {
-    cat("No tasks have been run.\n")
-  } else if (is.na(analysis@quantification_DE_task)) {
-    tsk <- p$task(id = analysis@alignment_task)
-    s <- tsk$execution_status
-    if (s$message=="COMPLETED") {
-      cat("Alignment is completed. Proceed with the quantification step.\n")
-    } else {
-      if (is.null(s$completed)) {
-        msg <- paste0("Alignment in progress: none of the tasks are completed and ",
-                      s$running," still running.\n")
-      } else msg <- paste0("Alignment in progress: ", s$completed,
-                           " of the tasks completed and ", s$running," still running.\n")
-      cat(msg)
-    }
-  }
 }

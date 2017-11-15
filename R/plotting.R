@@ -26,10 +26,10 @@ plotVenn <- function(analyses, alpha, ...) {
   coln <- sapply(analyses, function(x) x@title)
   features = character(0)
   for (i in 1:n) {
-    features <- c(features, rownames(analyses[[i]]@analysis_results))
+    features <- c(features, rownames(analyses[[i]]@results))
   }
   features <- sort(unique(features))
-  d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@analysis_results[features,"q_value"]<=alpha)))
+  d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@results[features,"q_value"]<=alpha)))
   names(d) <- coln
   d[is.na(d)] <- 0
 
@@ -79,13 +79,14 @@ plotVenn <- function(analyses, alpha, ...) {
 #' @export
 clusterDendogram <- function(analyses, alpha) {
   n <- length(analyses)
+  if (n<2) stop("No sense in plotting a cluster dendrogram with just one analysis.")
   coln <- sapply(analyses, function(x) x@title)
   features = character(0)
   for (i in 1:n) {
-    features <- c(features, rownames(analyses[[i]]@analysis_results))
+    features <- c(features, rownames(analyses[[i]]@results))
   }
   features <- sort(unique(features))
-  d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@analysis_results[features,"q_value"]<=alpha)))
+  d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@results[features,"q_value"]<=alpha)))
   names(d) <- coln
   d[is.na(d)] <- 0
   # analyze only those genes which are found to be DE at least once
@@ -96,17 +97,25 @@ clusterDendogram <- function(analyses, alpha) {
 
 #' @export
 barChart <- function(analyses, alpha, fill) {
-  analyses <- c(DEA1, DEA2, DEA3, DEA4, DEA5, DEA6)
-  alpha <- 0.05
-  fill = c("skyblue", "pink1", "mediumorchid", "orange", "chartreuse3", "firebrick2")
+  # analyses <- c(DEA1, DEA2, DEA3, DEA4, DEA5, DEA6)
+  # alpha <- 0.05
+  # fill = c("skyblue", "pink1", "mediumorchid", "orange", "chartreuse3", "firebrick2")
   n <- length(analyses)
-  coln <- sapply(analyses, function(x) x@title)
-  features = character(0)
-  for (i in 1:n) {
-    features <- c(features, rownames(analyses[[i]]@analysis_results))
+  # I hope to find an elegant solution to this in class definition
+  if (n==1) {
+    coln <- analyses@title
+    features <- rownames(analyses@results)
+    features <- sort(unique(features))
+    d <- data.frame(row.names = features, 1*(analyses@results[features,"q_value"]<=alpha))
+  } else {
+    coln <- sapply(analyses, function(x) x@title)
+    features = character(0)
+    for (i in 1:n) {
+      features <- c(features, rownames(analyses[[i]]@results))
+    }
+    features <- sort(unique(features))
+    d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@results[features,"q_value"]<=alpha)))
   }
-  features <- sort(unique(features))
-  d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@analysis_results[features,"q_value"]<=alpha)))
   names(d) <- coln
   d[is.na(d)] <- 0
   o <- order(colSums(d), decreasing = FALSE)

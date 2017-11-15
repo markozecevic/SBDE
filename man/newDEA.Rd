@@ -4,36 +4,23 @@
 \alias{newDEA}
 \title{New Differential Expression Analysis}
 \usage{
-newDEA(analysis_title, token, project_id, platform, align_wf, de_wf)
+newDEA(auth, analysis_title, task_id)
 }
 \arguments{
+\item{auth}{authentication object}
+
 \item{analysis_title}{the title of your analysis}
 
-\item{token}{your Seven Bridges Platform authentication token}
-
-\item{project_id}{project id}
-
-\item{platform}{chosen Seven Bridges platform}
-
-\item{align_wf}{a character string indicating the choice of alignment workflow
-(choose between \emph{star}, \emph{tophat2} and \emph{hisat2})}
-
-\item{de_wf}{a character string indicating the choice of quantification/DE workflow
-(choose between \emph{cufflinks} and \emph{deseq2})}
+\item{task_id}{task id}
 }
 \value{
-The output is a new \code{DifferentialExpressionAnalysis} object,
-  with \emph{title}, \emph{project}, \emph{alignment_wf} and \emph{quantification_DE_wf}
-  slots populated. Also, any FASTA or FA files found in the project are going to be listed
-  in the \emph{reference} slot - change the value manually if needed so it reflects your
-  choice of reference. Same goes for the \emph{annotation} and \emph{sample_reads} slots.
-  Ideally, you will create a new project for the analysis and import just the desired
-  FASTQs, a single FASTA and a single GTF file.
+The output is a new \code{DifferentialExpressionAnalysis} object
 }
 \description{
 \code{newDEA} creates a new object of class \code{DifferentialExpressionAnalysis}.
 }
 \examples{
-testDEA <- newDEA("Hisat_and_deseq2", your_token, your_project, your_platform, "hisat2", "deseq2")
+library(sevenbridges)
+a <- Auth(token = your_token, url = your_platform)
+x <- newDEA(a, "Hisat_and_deseq2", "210458f1-0569-4f72-b5d2-0a64ca966c88")
 }
-

@@ -24,4 +24,3 @@ A Venn Diagram plot.
 \examples{
 plotVenn(c(DEA1, DEA2, DEA3), 0.05, lty = "blank", fill = c("skyblue", "pink1", "mediumorchid"))
 }
-

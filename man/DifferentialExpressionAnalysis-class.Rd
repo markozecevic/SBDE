@@ -2,8 +2,8 @@
 % Please edit documentation in R/DifferentialExpressionAnalysis.R
 \docType{class}
 \name{DifferentialExpressionAnalysis-class}
-\alias{DifferentialExpressionAnalysis}
 \alias{DifferentialExpressionAnalysis-class}
+\alias{DifferentialExpressionAnalysis}
 \title{S4 Class Representing a DE Analysis}
 \description{
 Class \code{DifferentialExpressionAnalysis} is a container for holding all the relevant
@@ -14,24 +14,8 @@ Class \code{DifferentialExpressionAnalysis} is a container for holding all the r
 \describe{
 \item{\code{title}}{analysis title}
 
-\item{\code{project}}{project id}
+\item{\code{task}}{id of the chosen DEA task}
 
-\item{\code{reference}}{reference FASTA}
-
-\item{\code{annotation}}{reference annotation}
-
-\item{\code{sample_reads}}{a data frame indicating sample FASTQs to be used in the analysis}
-
-\item{\code{alignment_wf}}{a string representing the chosen alignment workflow}
-
-\item{\code{alignment_task}}{id of the alignment task}
-
-\item{\code{aligned_reads}}{a data frame listing the alignment files produced}
-
-\item{\code{quantification_DE_wf}}{a string representing the chosen quantification/DE workflow}
-
-\item{\code{quantification_DE_task}}{id of the chosen quantification/DE task}
-
-\item{\code{analysis_results}}{the results of DE analysis}
+\item{\code{results}}{the results of DE analysis}
 }}
 

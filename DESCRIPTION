@@ -3,12 +3,8 @@ Type: Package
 Title: Differential Expression Analysis on Seven Bridges Platforms
 Version: 0.0.0.9000
 Authors@R: person("Marko", "Zecevic", email = "marko.zecevic@sbgenomics.com", role = c("aut", "cre"))
-Description: A set of API scripts written with a goal of simplifying differential expression 
-    analysis on Seven Bridges platforms. The DifferentialExpressionAnalysis container 
-    is used to keep track of data, chosen alignment and quantification/DE testing 
-    workflows and their corresponding tasks. SBDE also extends the functionality of 
-    VennDiagram package to allow for comparison of up to five different workflow 
-    choices.
+Description: SBDE package is a collection of API scripts written with the goal of simplifying
+    comparison of differentially expressed gene lists produced on Seven Bridges platforms.
 License: GPL-3
 LazyData: TRUE
 Imports:
@@ -17,7 +13,7 @@ Imports:
     tools (>= 3.3.0),
     VennDiagram (>= 1.6.17),
     methods (>= 3.3.0)
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
     testthat

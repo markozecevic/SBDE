@@ -25,28 +25,28 @@ DifferentialExpressionAnalysis <- setClass(
   )
 )
 
-# https://www.r-bloggers.com/vectors-of-s4-classes-with-non-trivial-slots/
-
-setMethod("c", signature(x = "DifferentialExpressionAnalysis"), function(x, ...){
-  elements = list(x, ...)
-
-  AnalysesList = list()
-  for (i in 1:length(elements)){
-    AnalysesList[i] = new("DifferentialExpressionAnalysis",
-                          title = slot(elements[[i]], "title"),
-                          task = slot(elements[[i]], "task"),
-                          results = slot(elements[[i]], "results"))
-  }
-
-  class(AnalysesList) = "DifferentialExpressionAnalysis"
-
-  AnalysesList
-
-})
-
-as.list.nssItem=function(from) mapply(function(x) slot(from,x),
-                                      slotNames("nssItem"),
-                                      SIMPLIFY=FALSE)
+## DEPRECATED (from R 3.3.0)
+## https://www.r-bloggers.com/vectors-of-s4-classes-with-non-trivial-slots/
+# setMethod("c", signature(x = "DifferentialExpressionAnalysis"), function(x, ...){
+#   elements = list(x, ...)
+#
+#   AnalysesList = list()
+#   for (i in 1:length(elements)){
+#     AnalysesList[i] = new("DifferentialExpressionAnalysis",
+#                           title = slot(elements[[i]], "title"),
+#                           task = slot(elements[[i]], "task"),
+#                           results = slot(elements[[i]], "results"))
+#   }
+#
+#   class(AnalysesList) = "DifferentialExpressionAnalysis"
+#
+#   AnalysesList
+#
+# })
+#
+# as.list.nssItem=function(from) mapply(function(x) slot(from,x),
+#                                       slotNames("nssItem"),
+#                                       SIMPLIFY=FALSE)
 
 # # will do someday
 # setMethod("show", "DifferentialExpressionAnalysis", function(object){

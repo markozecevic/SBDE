@@ -2,8 +2,8 @@
 
 export(barChart)
 export(clusterDendogram)
-export(list_bam)
 export(newDEA)
+export(plotUpset)
 export(plotVenn)
 exportClasses(DifferentialExpressionAnalysis)
 import(sevenbridges)

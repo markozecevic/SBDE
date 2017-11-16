@@ -25,7 +25,7 @@ DifferentialExpressionAnalysis <- setClass(
   )
 )
 
-## DEPRECATED (from R 3.3.0)
+## DEPRECATED (since R release 3.3.0)
 ## https://www.r-bloggers.com/vectors-of-s4-classes-with-non-trivial-slots/
 # setMethod("c", signature(x = "DifferentialExpressionAnalysis"), function(x, ...){
 #   elements = list(x, ...)

@@ -1,4 +1,3 @@
-
 significant <- function(analyses_titles, d) {
   candidates <- d
   for (i in 1:length(analyses_titles)) {
@@ -22,16 +21,13 @@ significant <- function(analyses_titles, d) {
 
 #' @export
 plotVenn <- function(analyses, alpha, ...) {
-  n <- length(analyses)
   coln <- sapply(analyses, function(x) x@title)
-  features = character(0)
-  for (i in 1:n) {
-    features <- c(features, rownames(analyses[[i]]@results))
-  }
-  features <- sort(unique(features))
-  d <- data.frame(row.names = features, sapply(analyses, function(x) 1*(x@results[features,"q_value"]<=alpha)))
-  names(d) <- coln
-  d[is.na(d)] <- 0
+  sig <- lapply(analyses, function(x) rownames(x@results)[which(x@results < alpha)])
+  names(sig) <- coln
+  if (!(sum(sapply(sig, length) > 0) > 1)) stop("At least two non-empty sets are needed for an upset plot. There is ",
+                                              sum(sapply(sig, length) > 0), ".")
+  n <- length(analyses)
+  d <- UpSetR::fromList(sig)
 
   grid::grid.newpage()
   if (n == 1) {
@@ -97,9 +93,6 @@ clusterDendogram <- function(analyses, alpha) {
 
 #' @export
 barChart <- function(analyses, alpha, fill) {
-  # analyses <- c(DEA1, DEA2, DEA3, DEA4, DEA5, DEA6)
-  # alpha <- 0.05
-  # fill = c("skyblue", "pink1", "mediumorchid", "orange", "chartreuse3", "firebrick2")
   n <- length(analyses)
   # I hope to find an elegant solution to this in class definition
   if (n==1) {
@@ -122,4 +115,15 @@ barChart <- function(analyses, alpha, fill) {
   d <- colSums(d)[o]
   barplot(d, names.arg = NA, col = fill[o], legend.text = TRUE, main = "Number of differentially expressed genes",
           args.legend = list(x = "bottomright", text.width = max(strwidth(names(d)))))
+}
+
+#' @export
+plotUpset <- function(analyses, alpha, ...) {
+  coln <- sapply(analyses, function(x) x@title)
+  sig <- lapply(analyses, function(x) rownames(x@results)[which(x@results < alpha)])
+  names(sig) <- coln
+  if (sum(sapply(sig, length) > 0) > 1) {
+    UpSetR::upset(UpSetR::fromList(sig), order = "freq")
+  } else stop("At least two non-empty sets are needed for an upset plot. There is ",
+              sum(sapply(sig, length) > 0), ".")
 }

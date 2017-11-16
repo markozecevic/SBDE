@@ -2,8 +2,6 @@ Detecting differentially expressed genes across sample groups is among the major
 
 **SBDE** package is a collection of API scripts written with the goal of simplifying comparison of differentially expressed gene lists produced on Seven Bridges platforms. It abstracts over the differences in output formats and includes some plotting functionality.
 
-A vignette can be previewed [HERE](https://htmlpreview.github.io/?https://github.com/markozecevic/SBDE/blob/master/inst/doc/SBDE.html).
-
 Before installing **SBDE**, make sure to install the latest version of **sevenbridges** package:
 
 ```{r, echo=TRUE}
@@ -12,7 +10,7 @@ install_github("sbg/sevenbridges-r")
 install_github("markozecevic/SBDE")
 ```
 
-To use it, load ```sevenbridges``` and create an auth object.
+To use it, load **sevenbridges** and create an auth object.
 
 ```{r, echo=TRUE}
 library(sevenbridges)

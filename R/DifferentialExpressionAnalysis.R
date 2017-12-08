@@ -72,7 +72,7 @@ newDEA <- function(auth, analysis_title, task_id) {
   t <- auth$task(id = task_id)
   arrid <- unlist(strsplit(t$app, "/"))
   appid <- arrid[length(arrid)-1]
-  type <- sapply(c("deseq2", "cufflinks"), grepl, appid)
+  type <- sapply(c("deseq2", "cufflinks", "edge", "shrinkbayes"), grepl, appid)
   # until we add "cufflinks" to the public DE forkflow id:
   if (appid == "rna-seq-differential-expression") type[2] = TRUE
   if (sum(type)!=1) stop("No (or multiple) DE tool names recognized in the app id.")
@@ -82,6 +82,12 @@ newDEA <- function(auth, analysis_title, task_id) {
          },
          cufflinks={
            rslt <- read_cufflinks(t)
+         },
+         edge={
+           rslt <- read_edger(t)
+         },
+         shrinkbayes={
+           rslt <- read_shrinkbayes(t)
          })
   object <- DifferentialExpressionAnalysis(title = analysis_title, task = t, results = rslt)
   return(object)

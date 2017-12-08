@@ -33,7 +33,7 @@ read_deseq2 <- function(task) {
 }
 
 read_edger <- function(task) {
-  resFile <- task$file("out.csv")
+  resFile <- task$file("BestTags.csv")
   if (is.null(resFile)) stop("There was no csv file in the task outputs.")
   resFile$download(tempdir())
   path <- paste0(tempdir(), "/", resFile$name)
@@ -41,6 +41,18 @@ read_edger <- function(task) {
   edgerResults <- read.csv(file=path, header=TRUE, stringsAsFactors=FALSE, sep="\t")
   file.remove(path)
   return(data.frame(row.names = row.names(edgerResults), "q_value" = edgerResults$FDR,
+                    stringsAsFactors=FALSE))
+}
+
+read_shrinkbayes <- function(task) {
+  resFile <- task$file("out.csv")
+  if (is.null(resFile)) stop("There was no csv file in the task outputs.")
+  resFile$download(tempdir())
+  path <- paste0(tempdir(), "/", resFile$name)
+
+  sbResults <- read.csv(file=path, header=TRUE, stringsAsFactors=FALSE, sep="\t")
+  file.remove(path)
+  return(data.frame(row.names = sbResults$Names, "q_value" = sbResults$BFDRs,
                     stringsAsFactors=FALSE))
 }
 

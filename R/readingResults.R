@@ -32,8 +32,9 @@ read_deseq2 <- function(task) {
                     stringsAsFactors=FALSE))
 }
 
+
 read_edger <- function(task) {
-  resFile <- task$file("BestTags.csv")
+  resFile <- task$file("out.csv")
   if (is.null(resFile)) stop("There was no csv file in the task outputs.")
   resFile$download(tempdir())
   path <- paste0(tempdir(), "/", resFile$name)

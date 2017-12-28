@@ -24,8 +24,7 @@ plotVenn <- function(analyses, alpha, ...) {
   coln <- sapply(analyses, function(x) x@title)
   sig <- lapply(analyses, function(x) rownames(x@results)[which(x@results < alpha)])
   names(sig) <- coln
-  if (!(sum(sapply(sig, length) > 0) > 1)) stop("At least two non-empty sets are needed for an upset plot. There is ",
-                                              sum(sapply(sig, length) > 0), ".")
+
   n <- length(analyses)
   d <- UpSetR::fromList(sig)
 
@@ -123,7 +122,8 @@ plotUpset <- function(analyses, alpha, ...) {
   sig <- lapply(analyses, function(x) rownames(x@results)[which(x@results < alpha)])
   names(sig) <- coln
   if (sum(sapply(sig, length) > 0) > 1) {
-    UpSetR::upset(UpSetR::fromList(sig), order = "freq")
+    aux <- UpSetR::fromList(sig)
+    UpSetR::upset(aux, nsets = length(aux), order = "freq")
   } else stop("At least two non-empty sets are needed for an upset plot. There is ",
               sum(sapply(sig, length) > 0), ".")
 }
